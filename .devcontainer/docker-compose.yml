@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  devcontainer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - /home/victor/Desktop/Projects/parquet_segmenter:/workspace:cached
+    tty: true
+    environment:
+      - DEBIAN_FRONTEND=noninteractive
+    networks:
+      - devnet
+
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: devuser
+      POSTGRES_PASSWORD: devpass
+      POSTGRES_DB: devdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - devnet
+
+volumes:
+  postgres_data:
+
+networks:
+  devnet:
+    driver: bridge

@@ -1,0 +1,39 @@
+{
+  "name": "Parquet Segmenter - Debian Trixie / Python 3.13",
+  "dockerComposeFile": ["./docker-compose.yml"],
+  "service": "devcontainer",
+  "workspaceFolder": "/workspace/parquet_segmenter",
+  "shutdownAction": "stopCompose",
+  "forwardPorts": [5432],
+  "remoteUser": "vscode",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "GitHub.copilot",
+        "littlefoxteam.vscode-python-test-adapter"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "terminal.integrated.profiles.linux": {
+          "zsh": {
+            "path": "/usr/bin/zsh"
+          }
+        },
+        "python.defaultInterpreterPath": "/workspace/parquet_segmenter/.venv/bin/python",
+        "python.testing.pytestEnabled": true,
+        "python.testing.pytestArgs": ["__tests__/unit"],
+        "python.testing.unittestEnabled": false,
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": true,
+        "python.analysis.typeCheckingMode": "basic",
+        "python.testing.pytestPath": "/workspace/parquet_segmenter/.venv/bin/pytest"
+      }
+    }
+  },
+  "containerEnv": {
+    "PYTHONPATH": "/workspace/parquet_segmenter/__tests__/unit:/workspace/parquet_segmenter:${PYTHONPATH:-}"
+  },
+  "postCreateCommand": "python3.13 -m venv /workspace/parquet_segmenter/.venv && /workspace/parquet_segmenter/.venv/bin/python -m pip install --upgrade pip setuptools wheel && /workspace/parquet_segmenter/.venv/bin/python -m pip install pylint mypy pytest pytest-cov psycopg2-binary && gh extension install github/copilot-cli || true && sudo chsh -s /usr/bin/zsh vscode || true"
+}
