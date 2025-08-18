@@ -57,7 +57,10 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | g
 RUN set -eux; \
   curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft-archive-keyring.gpg; \
   echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/debian/12/prod stable main" > /etc/apt/sources.list.d/microsoft-prod.list; \
-  apt-get update; \
+  # apt-get update may fail if Microsoft's repo doesn't have a Release file for
+  # this distro; tolerate that so the overall build continues and pwsh remains
+  # optional. The subsequent install is already guarded with '|| true'.
+  apt-get update || true; \
   apt-get install -y --no-install-recommends powershell || true; \
   rm -rf /var/lib/apt/lists/* || true
 

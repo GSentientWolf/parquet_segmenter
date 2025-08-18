@@ -7,6 +7,10 @@
 # Optional:
 #   PFX_PWD - PFX password (plain-text). If omitted the signer will prompt.
 
+# TODO: If "pwsh" or "powershell" is missing in the devcontainer, rebuild the
+# devcontainer so that `.devcontainer/Dockerfile` installs PowerShell; verify
+# availability with `pwsh --version` before running this script.
+
 set -euo pipefail
 
 if [ -z "${SCRIPT:-}" ]; then
