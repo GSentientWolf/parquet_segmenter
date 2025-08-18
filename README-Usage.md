@@ -1,3 +1,35 @@
+Examples: build_blob_dataframe clustering
+-------------------------------------
+
+Minimal examples showing how to use `build_blob_dataframe` with the new clustering options:
+
+```python
+from parquet_segmenter.testing.blob_df import build_blob_dataframe, ChunkSize
+
+# Spread top_outliers across batches (default)
+df = build_blob_dataframe(total_df_size=10 * ChunkSize.ONE_MB, top_outliers=3, seed=42)
+
+# Cluster into a single batch (contiguous)
+df_cluster = build_blob_dataframe(
+    total_df_size=10 * ChunkSize.ONE_MB,
+    top_outliers=3,
+    spread_top_outliers=False,
+    cluster_batches=1,
+    contiguous_within_batch=True,
+    seed=42,
+)
+
+# Two clusters across batches
+df_two = build_blob_dataframe(
+    total_df_size=20 * ChunkSize.ONE_MB,
+    top_outliers=4,
+    spread_top_outliers=False,
+    cluster_batches=2,
+    seed=42,
+)
+```
+
+These examples are deterministic when `seed` is provided.
 README — Usage: index generators
 
 This document describes the public index-generation helpers in
