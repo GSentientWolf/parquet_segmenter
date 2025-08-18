@@ -1,0 +1,3 @@
+2025-08-18T06:44:29.489534+00:00 | INFO | functional test: info
+2025-08-18T06:44:29.489758+00:00 | WARNING | functional test: warning
+2025-08-18T06:44:29.489877+00:00 | ERROR | functional test: error

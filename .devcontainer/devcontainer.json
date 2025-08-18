@@ -30,8 +30,18 @@
         "python.analysis.typeCheckingMode": "basic",
         "python.testing.pytestPath": "${containerWorkspaceFolder}/.venv/bin/pytest"
       }
+    ,
+      "tasks": [
+        {
+          "label": "Sign PowerShell script",
+          "type": "shell",
+          "command": "./scripts/run_sign_in_container.sh",
+          "problemMatcher": []
+        }
+      ]
     }
   },
+
   "containerEnv": {
     "PYTHONPATH": "${containerWorkspaceFolder}/__tests__/unit:${containerWorkspaceFolder}:${containerWorkspaceFolder}/src:${PYTHONPATH:-}"
   },

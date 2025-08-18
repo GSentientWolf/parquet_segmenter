@@ -51,6 +51,16 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | g
  && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" > /etc/apt/sources.list.d/github-cli.list \
  && apt-get update && apt-get install -y gh && rm -rf /var/lib/apt/lists/* || true
 
+# Install PowerShell Core (pwsh) from Microsoft's repository. Use Debian 12
+# packages which are compatible with Debian Trixie. This is optional but
+# convenient for signing tools and PowerShell-based helpers.
+RUN set -eux; \
+  curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft-archive-keyring.gpg; \
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/debian/12/prod stable main" > /etc/apt/sources.list.d/microsoft-prod.list; \
+  apt-get update; \
+  apt-get install -y --no-install-recommends powershell || true; \
+  rm -rf /var/lib/apt/lists/* || true
+
 # Create vscode user
 RUN useradd -m -s /usr/bin/zsh -G sudo vscode \
  && echo "vscode ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/99_vscode
