@@ -9,6 +9,9 @@ from typing import Any
 from pathlib import Path
 import os
 
+# Module-level logger variable (will be set to loguru.logger or stdlib logger)
+logger: Any
+
 try:
     # Prefer loguru if available (import error is expected on some systems)
     from loguru import logger  # type: ignore
@@ -126,6 +129,6 @@ except ImportError:
     logger = logging.getLogger("parquet_segmenter")
 
 # Expose module-level `logger` (typed Any for downstream compatibility)
-logger: Any = logger  # type: ignore
+# The concrete logger object is assigned above in the import branches.
 
 __all__ = ["logger"]
