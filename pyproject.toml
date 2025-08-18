@@ -8,3 +8,6 @@ dependencies = [
 	
 ]
 
+[project.scripts]
+parquet-seg-cli = "parquet_segmenter.cli:main"
+

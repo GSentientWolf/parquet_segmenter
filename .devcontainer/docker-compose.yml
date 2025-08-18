@@ -1,12 +1,10 @@
-version: '3.8'
-
 services:
   devcontainer:
     build:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - /home/victor/Desktop/Projects/parquet_segmenter:/workspace:cached
+      - /home/victor/Desktop/Projects/Testers/parquet_segmenter:/workspace/parquet_segmenter:cached
     tty: true
     environment:
       - DEBIAN_FRONTEND=noninteractive
@@ -20,8 +18,9 @@ services:
       POSTGRES_USER: devuser
       POSTGRES_PASSWORD: devpass
       POSTGRES_DB: devdb
-    ports:
-      - "5432:5432"
+    # Expose the DB port to other compose services only; avoid binding to host
+    expose:
+      - "5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:

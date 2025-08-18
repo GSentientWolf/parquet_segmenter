@@ -21,19 +21,20 @@
             "path": "/usr/bin/zsh"
           }
         },
-        "python.defaultInterpreterPath": "/workspace/parquet_segmenter/.venv/bin/python",
+        "python.defaultInterpreterPath": "${containerWorkspaceFolder}/.venv/bin/python",
         "python.testing.pytestEnabled": true,
         "python.testing.pytestArgs": ["__tests__/unit"],
         "python.testing.unittestEnabled": false,
         "python.linting.enabled": true,
         "python.linting.pylintEnabled": true,
         "python.analysis.typeCheckingMode": "basic",
-        "python.testing.pytestPath": "/workspace/parquet_segmenter/.venv/bin/pytest"
+        "python.testing.pytestPath": "${containerWorkspaceFolder}/.venv/bin/pytest"
       }
     }
   },
   "containerEnv": {
-    "PYTHONPATH": "/workspace/parquet_segmenter/__tests__/unit:/workspace/parquet_segmenter:${PYTHONPATH:-}"
+    "PYTHONPATH": "${containerWorkspaceFolder}/__tests__/unit:${containerWorkspaceFolder}:${containerWorkspaceFolder}/src:${PYTHONPATH:-}"
   },
-  "postCreateCommand": "python3.13 -m venv /workspace/parquet_segmenter/.venv && /workspace/parquet_segmenter/.venv/bin/python -m pip install --upgrade pip setuptools wheel && /workspace/parquet_segmenter/.venv/bin/python -m pip install pylint mypy pytest pytest-cov psycopg2-binary && gh extension install github/copilot-cli || true && sudo chsh -s /usr/bin/zsh vscode || true"
+  "mounts": ["source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"],
+  "postCreateCommand": "./.devcontainer/post-create.sh"
 }

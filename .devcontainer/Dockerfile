@@ -27,6 +27,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   procps \
     ca-certificates \
     unzip \
+    docker.io \
   && rm -rf /var/lib/apt/lists/*
 
 # Ensure fd is available as `fd`
