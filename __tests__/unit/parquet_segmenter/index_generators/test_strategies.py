@@ -23,7 +23,6 @@ def test_stdlib_choice_factory_replace_true_histogram():
     assert all(c > 0 for c in hist)
 
 
-@pytest.mark.skipif(True, reason="numpy tests skipped if numpy not available")
 def test_numpy_choice_factory_if_available():
     try:
         factory = numpy_choice_factory(4, replace=False, seed=2)
@@ -33,7 +32,6 @@ def test_numpy_choice_factory_if_available():
     assert set(vals) == set(range(4))
 
 
-@pytest.mark.skipif(True, reason="numpy tests skipped if numpy not available")
 def test_numpy_choice_factory_weighted_no_replacement():
     try:
         # create a simple weighted distribution where bin 0 has very high weight
@@ -58,7 +56,6 @@ def test_stdlib_probs_validation():
         stdlib_choice_factory(2, probs=[0, 0])
 
 
-@pytest.mark.skipif(True, reason="numpy tests skipped if numpy not available")
 def test_numpy_probs_validation():
     try:
         pytest.importorskip("numpy")

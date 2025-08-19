@@ -1,7 +1,7 @@
 import os
 import pytest
 
-from parquet_segmenter.testing.binary_store import PrecalculatedBinaryStore
+from parquet_segmenter.functional_testing.binary_store import PrecalculatedBinaryStore
 
 
 def test_parse_size_basic():

@@ -2,7 +2,7 @@ import os
 import re
 import pytest
 
-from parquet_segmenter.testing.binary_store import PrecalculatedBinaryStore
+from parquet_segmenter.functional_testing.binary_store import PrecalculatedBinaryStore
 import re
 import pytest
 

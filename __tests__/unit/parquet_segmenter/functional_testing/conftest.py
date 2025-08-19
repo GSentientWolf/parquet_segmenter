@@ -47,7 +47,7 @@ def precalc_store(tmp_path):
 
     Call as: store = precalc_store()
     """
-    from parquet_segmenter.testing.binary_store import PrecalculatedBinaryStore
+    from parquet_segmenter.functional_testing.binary_store import PrecalculatedBinaryStore
 
     def _make():
         return PrecalculatedBinaryStore(str(tmp_path / "store"))
