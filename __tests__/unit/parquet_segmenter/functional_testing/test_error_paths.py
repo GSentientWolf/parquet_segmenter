@@ -6,8 +6,8 @@ import pytest
 import subprocess
 import shlex
 
-from parquet_segmenter.testing.binary_store import PrecalculatedBinaryStore
-from parquet_segmenter.testing.parquet_gen import (
+from parquet_segmenter.functional_testing.binary_store import PrecalculatedBinaryStore
+from parquet_segmenter.functional_testing.parquet_gen import (
     generate_parquet_by_size,
     generate_parquet_with_edge_cases,
 )

@@ -1,6 +1,6 @@
 import os
 
-from parquet_segmenter.testing.parquet_gen import generate_parquet_with_edge_cases
+from parquet_segmenter.functional_testing.parquet_gen import generate_parquet_with_edge_cases
 
 
 def test_generate_edge_cases_basic(tmp_path):

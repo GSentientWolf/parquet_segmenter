@@ -3,7 +3,7 @@ import tempfile
 
 import pandas as pd
 
-from parquet_segmenter.testing import generate_and_write_parquet
+from parquet_segmenter.functional_testing import generate_and_write_parquet
 def test_generate_with_nearest(tmp_path, precalc_store):
     store = precalc_store()
     store.ensure_size("5 kB")

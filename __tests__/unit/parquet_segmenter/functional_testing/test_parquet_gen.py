@@ -3,7 +3,7 @@ import os
 
 import pandas as pd
 
-from parquet_segmenter.testing import generate_and_write_parquet
+from parquet_segmenter.functional_testing import generate_and_write_parquet
 
 
 def test_generate_and_write_parquet_roundtrip():
