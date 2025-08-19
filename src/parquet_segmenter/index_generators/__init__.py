@@ -7,11 +7,15 @@ from .strategies import (
     stdlib_choice_factory,
     numpy_choice_factory,
     histogram_from_generator,
+    visualize_histogram,
+    sample_with_histogram,
 )
 
 __all__ = [
-    "generate_random_indices",
+    "generate_random_indices", 
     "stdlib_choice_factory",
-    "numpy_choice_factory",
+    "numpy_choice_factory", 
     "histogram_from_generator",
+    "visualize_histogram",
+    "sample_with_histogram",
 ]

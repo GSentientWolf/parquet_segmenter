@@ -19,7 +19,7 @@ python -m parquet_segmenter.cli list
 
 ```bash
 # ensure store has a 1 MB blob
-python -c "from parquet_segmenter.testing.binary_store import PrecalculatedBinaryStore; PrecalculatedBinaryStore().ensure_size('1 MB')"
+python -c "from parquet_segmenter.functional_testing.binary_store import PrecalculatedBinaryStore; PrecalculatedBinaryStore().ensure_size('1 MB')"
 python -m parquet_segmenter.cli list
 ```
 
