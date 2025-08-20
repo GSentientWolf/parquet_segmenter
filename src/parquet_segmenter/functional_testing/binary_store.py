@@ -11,6 +11,7 @@ Usage:
 Each call to `get` will add new files to the internal directory if they
 don't already exist.
 """
+
 from __future__ import annotations
 
 import os
@@ -50,9 +51,9 @@ class PrecalculatedBinaryStore:
         elif unit in ("KB", "KB") or unit == "KB":  # explicit for clarity
             mult = 1024
         elif unit == "MB":
-            mult = 1024 ** 2
+            mult = 1024**2
         elif unit == "GB":
-            mult = 1024 ** 3
+            mult = 1024**3
         else:
             # fallback
             mult = 1
@@ -116,5 +117,7 @@ class PrecalculatedBinaryStore:
             # we want a deterministic, user-friendly error. Treat an out of
             # range index as a missing binary file and raise FileNotFoundError
             # so callers can consistently handle missing artifacts.
-            raise FileNotFoundError(f"binary for index {index} not found (have {len(built)})")
+            raise FileNotFoundError(
+                f"binary for index {index} not found (have {len(built)})"
+            )
         return built[index][2]

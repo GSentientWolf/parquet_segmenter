@@ -86,10 +86,8 @@ def demonstrate_backward_compatibility():
         df_old = build_blob_dataframe(
             total_df_size=5 * ChunkSize.ONE_MB,
             top_outliers=2,
-            spread_top_outliers=False,  # Legacy parameter
-            cluster_batches=1,          # Legacy parameter  
-            contiguous_within_batch=True,  # Legacy parameter
-            seed=42
+            outlier_strategy=OutlierStrategy.CONTIGUOUS,
+            seed=42,
         )
         
         print(f"Legacy API: {len(df_old)} rows, {df_old['is_outlier'].sum()} outliers")

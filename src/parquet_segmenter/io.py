@@ -3,10 +3,10 @@
 This minimal module provides count_rows and get_stats used by tests/demo.
 It prefers pyarrow if available, otherwise implements a simple fallback.
 """
+
 from __future__ import annotations
 
-from typing import Dict, TYPE_CHECKING
-
+from typing import TYPE_CHECKING, Dict
 
 # Prefer to import pyarrow at module import time when available so linters
 # and tools can see the dependency; fall back gracefully at runtime.

@@ -3,13 +3,14 @@
 Provides simple helpers to create pandas DataFrames with different random
 distributions and write them to Parquet using pyarrow.
 """
+
 from __future__ import annotations
 
 import glob
 import os
-import tempfile
 import random
-from typing import List, Optional, Literal
+import tempfile
+from typing import List, Literal, Optional, Any
 
 import numpy as np
 import pandas as pd  # type: ignore[import]
@@ -44,7 +45,7 @@ def random_dataframe(
     ids = np.arange(n)
     ints = np.random.randint(int_range[0], int_range[1], size=n)
     normals = np.random.normal(loc=float_mean, scale=float_std, size=n)
-    data = {"id": ids, "ints": ints, "normals": normals}
+    data: dict[str, Any] = {"id": ids, "ints": ints, "normals": normals}
     if categories:
         cats = np.random.choice(categories, size=n)
         data["cats"] = pd.Categorical(cats, categories=categories)
@@ -91,7 +92,9 @@ def _write_temp_parquet_and_get_size(df: pd.DataFrame) -> int:
             pass
 
 
-def _candidates_from_store(store: PrecalculatedBinaryStore) -> tuple[list[str], list[int]]:
+def _candidates_from_store(
+    store: PrecalculatedBinaryStore,
+) -> tuple[list[str], list[int]]:
     """Return (paths, sizes) from a store's public index listing."""
     indexed = store.list_index()
     paths = [p for (_, _, p) in indexed]
@@ -172,7 +175,7 @@ def _assign_edge_blobs_from_store(
     def _closest_path(size_bytes: int) -> tuple[str, int]:
         """Return (path, actual_size_bytes) for exact or closest size in index_list."""
         # build a small map for fast exact lookup
-        for (_, s, p) in index_list:
+        for _, s, p in index_list:
             if s == size_bytes:
                 return p, s
         # use a short lambda to keep line length down
@@ -254,7 +257,9 @@ def _sample_n_rows(
     return n, df
 
 
-def _fill_small_blobs_in_column(store: PrecalculatedBinaryStore, blob_column: list[bytes]) -> None:
+def _fill_small_blobs_in_column(
+    store: PrecalculatedBinaryStore, blob_column: list[bytes]
+) -> None:
     """Fill empty entries in blob_column with small 1 kB blobs from store."""
     for i, v in enumerate(blob_column):
         if v == b"":
@@ -289,7 +294,9 @@ def _get_baseline_size(df: pd.DataFrame) -> int:
 
 def _attach_blob_column(
     df: pd.DataFrame,
-    source: tuple[Optional[PrecalculatedBinaryStore], Optional[str], Literal["nearest", "index"]],
+    source: tuple[
+        Optional[PrecalculatedBinaryStore], Optional[str], Literal["nearest", "index"]
+    ],
     per_row_target: float,
     n: int,
 ) -> None:
@@ -453,7 +460,9 @@ def generate_parquet_by_size(
     if not index_list:
         raise ValueError("index_list must be non-empty")
 
-    seq, seq_indices = _build_seq_for_target(index_list, binary_store, target_size_bytes)
+    seq, seq_indices = _build_seq_for_target(
+        index_list, binary_store, target_size_bytes
+    )
     n_rows = len(seq)
     df = random_dataframe(n=n_rows, categories=categories)
     df["blob"] = _load_blob_column(seq)
@@ -467,4 +476,8 @@ def generate_parquet_by_size(
         n_rows,
     )
 
-    return df, {"target": target_size_bytes, "produced": produced, "seq_indices": seq_indices}
+    return df, {
+        "target": target_size_bytes,
+        "produced": produced,
+        "seq_indices": seq_indices,
+    }

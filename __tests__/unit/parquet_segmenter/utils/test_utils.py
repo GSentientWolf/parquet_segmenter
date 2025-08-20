@@ -49,11 +49,11 @@ def _has_parquet_engine() -> bool:
     try:
         import pyarrow  # type: ignore
         return True
-    except Exception:
+    except ImportError:
         try:
             import fastparquet  # type: ignore
             return True
-        except Exception:
+        except ImportError:
             return False
 
 

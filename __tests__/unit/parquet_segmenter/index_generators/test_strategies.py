@@ -58,8 +58,8 @@ def test_stdlib_probs_validation():
 
 def test_numpy_probs_validation():
     try:
-        pytest.importorskip("numpy")
-    except Exception:
+        import numpy  # noqa: F401
+    except ImportError:
         pytest.skip("numpy not available")
     # wrong length
     with pytest.raises(ValueError):

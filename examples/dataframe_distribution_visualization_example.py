@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Test the visualization function."""
 
-from src.parquet_segmenter.functional_testing.blob_df import build_blob_dataframe, visualize_batch_layout, ChunkSize
+from src.parquet_segmenter.functional_testing.blob_df import build_blob_dataframe, visualize_batch_layout, ChunkSize, OutlierStrategy
 from rich.console import Console
 from rich.table import Table
 from tabulate import tabulate
@@ -14,9 +14,9 @@ def main():
     df = build_blob_dataframe(
         total_df_size=20 * ChunkSize.ONE_MB,
         top_outliers=3,
-        spread_top_outliers=True,
-        cluster_batches=1,
-        seed=42
+        outlier_strategy=OutlierStrategy.SPREAD,
+        cluster_count=1,
+        seed=42,
     )
 
     # Pretty-print the DataFrame as a table (tries rich, then tabulate, then pandas fallback)
@@ -45,11 +45,11 @@ def main():
             summary_row[(idx + 1) % len(summary_row)] = f"{len(df)} rows"
             table.add_row(*summary_row)
         console.print(table)
-    except Exception:
+    except (ImportError, AttributeError, TypeError, ValueError):
         try:
             # tabulate produces nice ASCII tables if available
             print(tabulate(df.values.tolist(), headers=list(df.columns), tablefmt="psql", showindex=False))
-        except Exception:
+        except (ImportError, TypeError, ValueError):
             # final fallback
             print(df.to_string(index=False))
 
@@ -74,7 +74,7 @@ def main():
         try:
             orig_mem = df.memory_usage(index=True, deep=True)
             print("Original memory usage series:\n", orig_mem)
-        except Exception:
+        except (ValueError, TypeError, OSError):
             pass
 
         # Demonstrate temporary patching of DataFrame.memory_usage to use 'size'
@@ -86,7 +86,7 @@ def main():
             try:
                 fake_mem = df.memory_usage(index=True, deep=True)
                 print("Fake memory usage series:\n", fake_mem)
-            except Exception:
+            except (ValueError, TypeError, OSError):
                 pass
             try:
                 # Example: compute patched memory_usage for several sections of the DataFrame
@@ -109,7 +109,7 @@ def main():
                 total_whole = int(df.memory_usage(index=True, deep=True).sum())
                 print(f"\nSum of section totals: {total_sections} bytes")
                 print(f"Patched whole-DataFrame total: {total_whole} bytes")
-            except Exception:
+            except (ValueError, TypeError, OSError):
                 pass
 
     else:

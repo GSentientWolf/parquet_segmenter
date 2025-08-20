@@ -1,0 +1,1 @@
+from parquet_segmenter.testing_utils import require_pkg

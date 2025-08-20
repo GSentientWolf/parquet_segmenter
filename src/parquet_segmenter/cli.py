@@ -4,6 +4,7 @@ Provides simple subcommands to list the binary store, generate a parquet
 by target size, and generate an edge-case parquet. This is intentionally
 small and meant for local testing only.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -12,9 +13,9 @@ from typing import Optional
 
 from parquet_segmenter.functional_testing.binary_store import PrecalculatedBinaryStore
 from parquet_segmenter.functional_testing.parquet_gen import (
+    generate_and_write_parquet,
     generate_parquet_by_size,
     generate_parquet_with_edge_cases,
-    generate_and_write_parquet,
 )
 
 

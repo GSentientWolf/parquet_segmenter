@@ -4,10 +4,16 @@ Provides factories that return iterators yielding indices according to various
 random backends (stdlib random and NumPy) and a helper to build histograms of
 samples.
 """
+
+# Some helpers in this module are intentionally compact and accept multiple
+# parameters to remain convenient for tests and examples. Defer deep
+# refactors and silence the specific pylint complexity checks here.
+# pylint: disable=too-many-arguments,too-many-locals
+
 from __future__ import annotations
 
-from typing import Callable, Iterator, Iterable, List, Optional
 import random
+from typing import Callable, Iterable, Iterator, List, Optional
 
 try:
     import numpy as np
@@ -172,7 +178,7 @@ def visualize_histogram(
     show_percentages: bool = False,
     bar_char: str = "█",
     empty_char: str = " ",
-) -> str:
+ ) -> str:  # pylint: disable=too-many-arguments,too-many-locals
     """Create an ASCII visualization of histogram counts.
 
     Args:
@@ -191,42 +197,42 @@ def visualize_histogram(
 
     max_count = max(counts) if counts else 1
     total_count = sum(counts)
-    
+
     if max_count == 0:
         return "(all bins empty)"
 
     lines = []
-    
+
     # Add header if showing percentages
     if show_percentages and total_count > 0:
         lines.append(f"Histogram of {total_count} samples:")
         lines.append("")
-    
+
     for i, count in enumerate(counts):
         # Calculate bar length proportional to count
         if max_count > 0:
             bar_length = int((count * width) / max_count)
         else:
             bar_length = 0
-        
-        # Create the bar
-        bar = bar_char * bar_length + empty_char * (width - bar_length)
-        
+
+        # Create the bar string (rename local to avoid disallowed-name 'bar')
+        bar_str = bar_char * bar_length + empty_char * (width - bar_length)
+
         # Create the label
         label_parts = [f"Bin {i:2d}"]
-        
+
         if show_counts:
             label_parts.append(f"({count:4d})")
-            
+
         if show_percentages and total_count > 0:
             percentage = (count / total_count) * 100
             label_parts.append(f"{percentage:5.1f}%")
-        
+
         label = " ".join(label_parts)
-        
+
         # Combine label and bar
-        lines.append(f"{label} |{bar}|")
-    
+        lines.append(f"{label} |{bar_str}|")
+
     return "\n".join(lines)
 
 
@@ -239,36 +245,35 @@ def sample_with_histogram(
     histogram_width: int = 40,
 ) -> List[int]:
     """Generate a list of n random indices and optionally display a histogram.
-    
-    This is a convenience function that combines generation with optional 
+
+    This is a convenience function that combines generation with optional
     visualization for quick experimentation.
-    
+
     Args:
         generator_factory: Factory function that returns an iterator
         n: Number of indices to generate
         num_bins: Number of possible bins/indices
         show_histogram: Whether to print an ASCII histogram
         histogram_width: Width of the histogram bars
-        
+
     Returns:
         List of generated indices
     """
     it = generator_factory()
     indices = []
-    
+
     for _ in range(n):
         try:
             indices.append(next(it))
         except StopIteration:
             break
-    
+
     if show_histogram:
         counts = histogram_from_generator(iter(indices), len(indices), num_bins)
-        print(visualize_histogram(
-            counts, 
-            width=histogram_width, 
-            show_counts=True,
-            show_percentages=True
-        ))
-    
+        print(
+            visualize_histogram(
+                counts, width=histogram_width, show_counts=True, show_percentages=True
+            )
+        )
+
     return indices

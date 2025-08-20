@@ -1,4 +1,5 @@
 """Small CLI-like helpers for module demo and tests."""
+
 from __future__ import annotations
 
 from .io import count_rows

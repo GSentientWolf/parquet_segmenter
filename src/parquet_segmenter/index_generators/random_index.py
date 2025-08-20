@@ -3,14 +3,14 @@
 This module provides a tiny deterministic random index generator for tests.
 """
 
-# TODO: Redefine the index generator — revisit the API and implementation to
-# support flexible ranges, sampling modes (with/without replacement), and
+# Note: Consider revisiting the index generator API in future to support
+# more flexible ranges, sampling modes (with/without replacement), and
 # streaming generation for large counts.
 
 from __future__ import annotations
 
 import random
-from typing import Iterator, Callable, Union, List
+from typing import Callable, Iterator, List, Union
 
 
 def generate_random_indices(
@@ -55,7 +55,9 @@ def generate_random_indices(
 
     # Streaming/factory mode: arg is callable or iterator, k must be provided
     if k is None:
-        raise TypeError("k must be provided when passing a generator factory or iterator")
+        raise TypeError(
+            "k must be provided when passing a generator factory or iterator"
+        )
 
     rnd_fn = arg
     if callable(rnd_fn):

@@ -3,11 +3,12 @@
 This module exposes `logger` with a similar interface to loguru's logger.
 If loguru is not installed, it falls back to the stdlib `logging` module.
 """
+
 from __future__ import annotations
 
-from typing import Any
-from pathlib import Path
 import os
+from pathlib import Path
+from typing import Any
 
 # Module-level logger variable (will be set to loguru.logger or stdlib logger)
 logger: Any
@@ -15,6 +16,7 @@ logger: Any
 try:
     # Prefer loguru if available (import error is expected on some systems)
     from loguru import logger  # type: ignore
+
     # Configure loguru with UTC timestamps and colored output.
     try:
         # remove default handlers and add a single stdout sink with a compact

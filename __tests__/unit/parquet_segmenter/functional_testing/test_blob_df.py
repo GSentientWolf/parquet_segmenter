@@ -15,7 +15,7 @@ def test_blob_df_deterministic():
     df1 = build_blob_dataframe(total_df_size=5 * ChunkSize.ONE_MB, seed=123)
     df2 = build_blob_dataframe(total_df_size=5 * ChunkSize.ONE_MB, seed=123)
     # sizes and outlier flags should be identical for the same seed
-    assert df1["size"].tolist() == df2["size"].tolist()
+    assert df1["blob_size"].tolist() == df2["blob_size"].tolist()
     assert df1["is_outlier"].tolist() == df2["is_outlier"].tolist()
 
 
