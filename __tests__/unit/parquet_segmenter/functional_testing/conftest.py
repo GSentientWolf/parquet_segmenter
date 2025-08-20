@@ -1,8 +1,5 @@
-import io
-import runpy
 import sys
 import subprocess
-from contextlib import redirect_stdout, redirect_stderr
 from types import SimpleNamespace
 import pytest
 

@@ -12,9 +12,9 @@ def main():
     
     # Create a small test DataFrame
     df = build_blob_dataframe(
-        total_df_size=3 * ChunkSize.ONE_MB,
-        top_outliers=2,
-        spread_top_outliers=False,
+        total_df_size=20 * ChunkSize.ONE_MB,
+        top_outliers=3,
+        spread_top_outliers=True,
         cluster_batches=1,
         seed=42
     )
@@ -39,7 +39,10 @@ def main():
             total_size = df[size_col].sum()
             summary_row = ["" for _ in df.columns]
             summary_row[0] = "TOTAL"
-            summary_row[list(df.columns).index(size_col)] = str(total_size / 1024**2) + " MB"
+            idx = list(df.columns).index(size_col)
+            summary_row[idx] = str(total_size / 1024**2) + " MB"
+            # put total row count in the next column (wrap to first if size_col is last)
+            summary_row[(idx + 1) % len(summary_row)] = f"{len(df)} rows"
             table.add_row(*summary_row)
         console.print(table)
     except Exception:

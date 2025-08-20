@@ -10,4 +10,5 @@ dependencies = [
 
 [project.scripts]
 parquet-seg-cli = "parquet_segmenter.cli:main"
+assert-no-src-testing = "parquet_segmenter.scripts:assert_no_src_testing_main"
 
