@@ -15,6 +15,8 @@ Proposed clean API:
 """
 
 from enum import StrEnum
+from typing import Optional
+
 
 class OutlierStrategy(StrEnum):
     """Strategy for placing large outlier blobs in the DataFrame."""
